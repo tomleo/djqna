@@ -31,7 +31,7 @@ class Question(models.Model):
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
     title = models.CharField(max_length=255)
-    user = models.ForeignKey()
+    user = models.ForeignKey(User)
     text = models.TextField()
 
     up_votes = models.PositiveIntegerField()
@@ -55,7 +55,7 @@ class Answer(models.Model):
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
     title = models.CharField(max_length=255)
-    user = models.ForeignKey()
+    user = models.ForeignKey(User)
     text = models.TextField()
 
     up_votes = models.PositiveIntegerField()
