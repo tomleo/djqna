@@ -1,5 +1,0 @@
-include LICENSE
-include README.rst
-recursive-include forum/static *
-recursive-include forum/templates *
-
