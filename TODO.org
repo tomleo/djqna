@@ -1,0 +1,4 @@
+* Rendering Forms
+** TODO Use rest_framework's HTML renderer for form generation
+** TODO Use rest_framework's model serializer for form validation
+
