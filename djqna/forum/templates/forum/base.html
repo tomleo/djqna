@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% block head %}
+
+{% endblock %}
+</head>
+<body>
+{% block body %}
+
+{% endblock %}
+<script src="//code.jquery.com/jquery-1.12.1.min.js"></script>
+<script>
+if(!window.jQuery) {
+    var local_src = "{% static 'js/jquery-1.12.1.min.js' %}";
+    document.write('<script src="' + local_src +'"><\/script>')
+}
+</script>
+{% block end_js %}
+
+{% endblock %}
+</body>
+</html>

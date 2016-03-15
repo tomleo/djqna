@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from .models import Question, Answer, Vote
+from .views import questions, question, answers, answer
 
 def make_users(n):
     return {'u%s' % i: User(first_name='fn%s'%i,
@@ -12,6 +14,9 @@ def save_users(user_dict):
     for user in user_dict.values():
         user.save()
     return user_dict
+
+
+# Model Tests
 
 class TestAnswers(TestCase):
 
@@ -40,4 +45,31 @@ class TestAnswers(TestCase):
         q1 = Question.objects.get(pk=q1.pk) # CREAM
         self.assertEqual(q1.up_votes, 0)
         self.assertEqual(q1.down_votes, 3)
+
+class TestQuestions(TestCase):
+    pass
+
+
+# View Tests
+
+class TestQuestionsView(TestCase):
+
+    def test_questions(self):
+        users = save_users(make_users(4))
+        q1 = Question.objects.create(title='a', user=users['u1'], text='a')
+        response = self.client.get(reverse('questions'))
+        # AssertionError: [1] != [1] WTF...
+        self.assertEqual(response.context['questions']\
+                                 .values_list('pk', flat=True),
+                         [q1.id])
+
+class TestQuestionView(TestCase):
+    pass
+
+class TestAnswersView(TestCase):
+    pass
+
+class TestAnswerView(TestCase):
+    pass
+
 
