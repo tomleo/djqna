@@ -15,7 +15,7 @@ def question(request, question_id):
     context = {
         'question': _question,         
     }
-    return render(request, 'form/question.html', context)
+    return render(request, 'forum/question.html', context)
 
 def answers(request, question_id):
     # TODO: add pagination
@@ -23,12 +23,12 @@ def answers(request, question_id):
     context = {
         'answers': _answers
     }
-    return render(request, 'form/answers.html', context)
+    return render(request, 'forum/answers.html', context)
 
 def answer(request, answer_id):
     _answer = get_object_or_404(Answer, pk=answer_id)
     context = {
             'answer': _answer
     }
-    return render(request, 'form/answer.html', context)
+    return render(request, 'forum/answer.html', context)
 

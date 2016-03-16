@@ -55,21 +55,39 @@ class TestQuestions(TestCase):
 class TestQuestionsView(TestCase):
 
     def test_questions(self):
-        users = save_users(make_users(4))
+        users = save_users(make_users(1))
         q1 = Question.objects.create(title='a', user=users['u1'], text='a')
         response = self.client.get(reverse('questions'))
-        # AssertionError: [1] != [1] WTF...
-        self.assertEqual(response.context['questions']\
-                                 .values_list('pk', flat=True),
-                         [q1.id])
+        tmpl_questions = response.context['questions']
+        self.assertSetEqual(set(tmpl_questions.values_list('pk', flat=True)),
+                            set([q1.id]))
 
 class TestQuestionView(TestCase):
-    pass
+
+    def test_question(self):
+        users = save_users(make_users(1))
+        q1 = Question.objects.create(title='a', user=users['u1'], text='a')
+        response = self.client.get(reverse('question', kwargs={'question_id': q1.id}))
+        tmpl_question = response.context['question']
+        self.assertEqual(tmpl_question.id, q1.id)
+
 
 class TestAnswersView(TestCase):
-    pass
+
+    def test_answers(self):
+        users = save_users(make_users(2))
+        q1 = Question.objects.create(title='a', user=users['u1'], text='a')
+        a1 = Answer.objects.create(title='b', user=users['u2'], text='b', question=q1)
+        response = self.client.get(reverse('answers', kwargs={'question_id': q1.id}))
+        self.assertSetEqual(set(response.context['answers'].values_list('pk', flat=True)), set([a1.id]))
+
 
 class TestAnswerView(TestCase):
-    pass
 
+    def test_answer(self):
+        users = save_users(make_users(2))
+        q1 = Question.objects.create(title='a', user=users['u1'], text='a')
+        a1 = Answer.objects.create(title='b', user=users['u2'], text='b', question=q1)
+        response = self.client.get(reverse('answer', kwargs={'answer_id': a1.id}))
+        self.assertEqual(response.context['answer'].id, a1.id)
 
