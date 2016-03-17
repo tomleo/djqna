@@ -32,3 +32,16 @@ def answer(request, answer_id):
     }
     return render(request, 'forum/answer.html', context)
 
+
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+# TODO: view to post a question
+# validation should be done via model serializer
+# form rendering should be done via custom renderer
+class AskQuestionView(APIView):
+    renderer_classes = (JSONRenderer, )
+
+    def get(self, request, format=None):
+        pass
