@@ -5,11 +5,16 @@ from django.core.urlresolvers import reverse
 from .models import Question, Answer, Vote
 from .views import questions, question, answers, answer
 
+
 def make_users(n):
-    return {'u%s' % i: User(first_name='fn%s'%i,
-                            last_name='ln%s'%i,
-                            username='fn%sln%s'%(i,i),
-                            email='fn%s@ln%s.com'%(i,i)) for i in range(1,n+1)}
+    return {
+        'u%s' % i: User(first_name='fn%s' % i,
+                        last_name='ln%s' % i,
+                        username='fn%sln%s' % (i, i),
+                        email='fn%s@ln%s.com' % (i, i)) for i in range(1, n+1)
+    }
+
+
 def save_users(user_dict):
     for user in user_dict.values():
         user.save()
@@ -46,6 +51,7 @@ class TestAnswers(TestCase):
         self.assertEqual(q1.up_votes, 0)
         self.assertEqual(q1.down_votes, 3)
 
+
 class TestQuestions(TestCase):
     pass
 
@@ -61,6 +67,7 @@ class TestQuestionsView(TestCase):
         tmpl_questions = response.context['questions']
         self.assertSetEqual(set(tmpl_questions.values_list('pk', flat=True)),
                             set([q1.id]))
+
 
 class TestQuestionView(TestCase):
 
@@ -90,4 +97,3 @@ class TestAnswerView(TestCase):
         a1 = Answer.objects.create(title='b', user=users['u2'], text='b', question=q1)
         response = self.client.get(reverse('answer', kwargs={'answer_id': a1.id}))
         self.assertEqual(response.context['answer'].id, a1.id)
-

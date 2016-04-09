@@ -10,10 +10,10 @@ from django.dispatch import receiver
 class Vote(models.Model):
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
-    user = models.ForeignKey(User, blank=True, null=True) # Ensure this is not blank at the application level
+    user = models.ForeignKey(User, blank=True, null=True)  # Ensure this is not blank at the application level
     is_positive = models.BooleanField(default=True)
-    content_type = models.ForeignKey(ContentType) # Qestion or Answer
-    object_id = models.PositiveIntegerField() # pk of Question or Answer
+    content_type = models.ForeignKey(ContentType)  # Qestion or Answer
+    object_id = models.PositiveIntegerField()  # pk of Question or Answer
     content_object = GenericForeignKey('content_type', 'object_id')
 
     def save(self, *args, **kwargs):
@@ -101,4 +101,3 @@ class Answer(ObjectWithVotesMixin, models.Model):
 
     def __unicode__(self):
         return u'%s' % self.title
-
